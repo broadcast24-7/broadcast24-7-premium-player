@@ -184,7 +184,7 @@
     </div>
 
     <div class="powered-by">
-      <a href="https://broadcast247.co.uk" target="_blank">Powered By Broadcast 24/7</a>
+      <a href="https://broadcast247.co.uk" target="_blank">Powered by Broadcast 24/7</a>
     </div>
   </div>
 
@@ -194,9 +194,45 @@
 const params = new URLSearchParams(window.location.search);
 const streamURL = params.get("stream");
 const metaURL = params.get("meta");
+const licenseKey = params.get("license");
 const align = params.get("align") || "center";
 
 document.getElementById("playerArea").classList.add(`align-${align}`);
+
+const licenseURL = "https://raw.githubusercontent.com/broadcast24-7/broadcast24-7-premium-player/main/licenses.json";
+
+async function checkLicense() {
+  try {
+    const res = await fetch(licenseURL + "?_=" + Date.now());
+    const data = await res.json();
+
+    if (!data.licenses || !Array.isArray(data.licenses)) return showInvalid();
+
+    const license = data.licenses.find(l => l.key === licenseKey);
+    if (!license) return showInvalid();
+
+    if (license.expires !== "never") {
+      const today = new Date();
+      const expiry = new Date(license.expires);
+      if (today > expiry) return showInvalid();
+    }
+
+    return true;
+
+  } catch {
+    return showInvalid();
+  }
+}
+
+function showInvalid() {
+  document.getElementById("playerArea").innerHTML = `
+    <div style="width:100%;text-align:center;padding:40px 20px;color:#fff;">
+      <h1 style="font-size:24px;margin-bottom:10px;">Invalid License</h1>
+      <p style="font-size:14px;opacity:0.7;">This Broadcast 24/7 Premium Player is not licensed.</p>
+    </div>
+  `;
+  return false;
+}
 
 function initPlayer() {
   const audio = new Audio(streamURL);
@@ -241,6 +277,7 @@ function initPlayer() {
     });
   }
 
+  // 🧠 Artwork helpers
   function cleanTitle(title) {
     return title
       .replace(/\(.*?\)/g, "")
@@ -319,7 +356,7 @@ function initPlayer() {
       let title = data.icestats?.source?.title || "";
 
       if (!title) {
-        titleEl.textContent = "Broadcast 24/7 Premium Player";
+        titleEl.textContent = "Live Stream";
         artworkEl.src = FALLBACK_ART;
         return;
       }
@@ -332,7 +369,7 @@ function initPlayer() {
 
     } catch (err) {
       console.log("Metadata error:", err);
-      titleEl.textContent = "Broadcast 24/7 Premium Player";
+      titleEl.textContent = "Live Stream";
       artworkEl.src = FALLBACK_ART;
     }
   }
@@ -341,12 +378,14 @@ function initPlayer() {
     fetchMetadata();
     setInterval(fetchMetadata, 5000);
   } else {
-    titleEl.textContent = "Broadcast 24/7 Premium Player";
+    titleEl.textContent = "Live Stream";
     artworkEl.src = FALLBACK_ART;
   }
 }
 
-initPlayer();
+checkLicense().then(valid => {
+  if (valid) initPlayer();
+});
 </script>
 
 </body>
