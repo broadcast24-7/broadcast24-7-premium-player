@@ -51,7 +51,6 @@
       -webkit-backdrop-filter: blur(14px);
       border-radius: 14px;
 
-      /* ⭐ UPDATED WIDTH */
       width: 460px;
       max-width: 460px;
 
@@ -113,13 +112,13 @@
       will-change: transform;
     }
 
-    /* ⭐ SLOWER SCROLL (10s → 15s) */
+    /* ⭐ NEW: Start off-screen right → scroll left */
     .track-title.scroll {
       animation: scrollText 15s linear infinite;
     }
 
     @keyframes scrollText {
-      0% { transform: translateX(0); }
+      0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
 
@@ -141,11 +140,10 @@
     }
 
     .volume-wrap {
-  width: 100%;
-  max-width: 160px;
-  display: block;
-}
-
+      width: 100%;
+      max-width: 160px;
+      display: block;
+    }
 
     .volume-bar {
       width: 100%;
@@ -232,6 +230,7 @@ const streamURL = params.get("stream");
 const metaURL = params.get("meta");
 const licenseKey = params.get("license");
 const align = params.get("align") || "center";
+const volumeSetting = params.get("volume");
 
 document.getElementById("playerContainer").classList.add(`align-${align}`);
 
@@ -281,6 +280,10 @@ function initPlayer() {
 
   const FALLBACK_ART = "https://i.ibb.co/q3d3vD4x/B247-PREMIUM-FALLBACK.png";
   artworkEl.src = FALLBACK_ART;
+
+  if (volumeSetting === "hide") {
+    document.querySelector(".volume-wrap").style.display = "none";
+  }
 
   playButton.addEventListener("click", async () => {
     if (audio.paused) {
@@ -399,7 +402,6 @@ function initPlayer() {
       if (title !== lastTitle) {
         titleEl.textContent = title;
 
-        /* Enable scrolling if text is too long */
         if (title.length > 25) {
           titleEl.classList.add("scroll");
         } else {
