@@ -51,9 +51,9 @@
       -webkit-backdrop-filter: blur(14px);
       border-radius: 14px;
 
-      /* ✅ FIXED WIDTH */
-      width: 460px;
-      max-width: 460px;
+      /* FIXED WIDTH (350px) */
+      width: 350px;
+      max-width: 350px;
 
       margin: 0;
       border: 1px solid rgba(255,255,255,0.08);
@@ -96,7 +96,7 @@
 
     .onair-label span { color: #ff9c35; }
 
-    /* ✅ SCROLLING TITLE */
+    /* SCROLLING TITLE */
     .track-title {
       font-size: 15px;
       font-weight: 700;
@@ -275,7 +275,8 @@ function initPlayer() {
   const titleEl = document.getElementById("trackTitle");
   const artworkEl = document.getElementById("artwork");
 
-  const FALLBACK_ART = "https://i.ibb.co/Jj588RKm/Live-Stream-Default-Album-Art.png";
+  /* ✅ UPDATED FALLBACK IMAGE */
+  const FALLBACK_ART = "https://i.ibb.co/q3d3vD4x/B247-PREMIUM-FALLBACK.png";
   artworkEl.src = FALLBACK_ART;
 
   playButton.addEventListener("click", async () => {
