@@ -51,9 +51,9 @@
       -webkit-backdrop-filter: blur(14px);
       border-radius: 14px;
 
-      /* FIXED WIDTH */
-      width: 350px;
-      max-width: 350px;
+      /* ⭐ UPDATED WIDTH */
+      width: 400px;
+      max-width: 400px;
 
       margin: 0;
       border: 1px solid rgba(255,255,255,0.08);
@@ -96,7 +96,7 @@
 
     .onair-label span { color: #ff9c35; }
 
-    /* TITLE MASK (prevents overlap) */
+    /* TITLE MASK */
     .title-mask {
       width: 100%;
       overflow: hidden;
@@ -113,8 +113,9 @@
       will-change: transform;
     }
 
+    /* ⭐ SLOWER SCROLL (10s → 15s) */
     .track-title.scroll {
-      animation: scrollText 10s linear infinite;
+      animation: scrollText 15s linear infinite;
     }
 
     @keyframes scrollText {
@@ -209,7 +210,6 @@
     <div class="meta-wrap">
       <div class="onair-label"><span>●</span> NOW PLAYING</div>
 
-      <!-- TITLE MASK WRAPPER -->
       <div class="title-mask">
         <div id="trackTitle" class="track-title">Loading…</div>
       </div>
@@ -282,7 +282,6 @@ function initPlayer() {
   const titleEl = document.getElementById("trackTitle");
   const artworkEl = document.getElementById("artwork");
 
-  /* UPDATED FALLBACK IMAGE */
   const FALLBACK_ART = "https://i.ibb.co/q3d3vD4x/B247-PREMIUM-FALLBACK.png";
   artworkEl.src = FALLBACK_ART;
 
