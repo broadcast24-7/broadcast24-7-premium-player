@@ -32,17 +32,9 @@
       display: flex;
     }
 
-    .align-left {
-      justify-content: flex-start;
-    }
-
-    .align-center {
-      justify-content: center;
-    }
-
-    .align-right {
-      justify-content: flex-end;
-    }
+    .align-left { justify-content: flex-start; }
+    .align-center { justify-content: center; }
+    .align-right { justify-content: flex-end; }
 
     #playerContainer .widget-wrap {
       display: inline-flex;
@@ -59,9 +51,9 @@
       -webkit-backdrop-filter: blur(14px);
       border-radius: 14px;
 
-      /* ✅ FIXED WIDTH APPLIED HERE */
-      width: 600px;
-      max-width: 600px;
+      /* ✅ FIXED WIDTH */
+      width: 460px;
+      max-width: 460px;
 
       margin: 0;
       border: 1px solid rgba(255,255,255,0.08);
@@ -104,12 +96,26 @@
 
     .onair-label span { color: #ff9c35; }
 
+    /* ✅ SCROLLING TITLE */
     .track-title {
       font-size: 15px;
       font-weight: 700;
       line-height: 1.2;
-      word-break: break-word;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       color: var(--title-color);
+      display: block;
+      position: relative;
+    }
+
+    .track-title.scroll {
+      animation: scrollText 10s linear infinite;
+    }
+
+    @keyframes scrollText {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
     }
 
     .play-btn {
@@ -388,6 +394,14 @@ function initPlayer() {
 
       if (title !== lastTitle) {
         titleEl.textContent = title;
+
+        /* Enable scrolling if text is too long */
+        if (title.length > 25) {
+          titleEl.classList.add("scroll");
+        } else {
+          titleEl.classList.remove("scroll");
+        }
+
         updateArtwork(title);
         lastTitle = title;
       }
