@@ -26,6 +26,20 @@
       color: var(--text);
     }
 
+    /* NEW: Alignment wrapper */
+    #playerContainer {
+      width: 100%;
+      display: block;
+    }
+
+    .align-left { text-align: left; }
+    .align-center { text-align: center; }
+    .align-right { text-align: right; }
+
+    #playerContainer .widget-wrap {
+      display: inline-flex;
+    }
+
     .widget-wrap {
       display: flex;
       flex-direction: row;
@@ -40,10 +54,6 @@
       margin: 0;
       border: 1px solid rgba(255,255,255,0.08);
     }
-
-    .align-left { margin-right: auto; }
-    .align-center { margin-left: auto; margin-right: auto; }
-    .align-right { margin-left: auto; }
 
     .art-wrap {
       width: 120px;
@@ -166,26 +176,31 @@
 
 <body>
 
-<div class="widget-wrap" id="playerArea">
+<!-- NEW WRAPPER -->
+<div id="playerContainer">
 
-  <div class="art-wrap">
-    <img id="artwork" class="art-img" src="" alt="">
-  </div>
+  <div class="widget-wrap" id="playerArea">
 
-  <div class="meta-wrap">
-    <div class="onair-label"><span>●</span> NOW PLAYING</div>
-
-    <div id="trackTitle" class="track-title">Loading…</div>
-
-    <button id="playButton" class="play-btn">PLAY</button>
-
-    <div class="volume-wrap">
-      <input id="volumeBar" class="volume-bar" type="range" min="0" max="100" value="100">
+    <div class="art-wrap">
+      <img id="artwork" class="art-img" src="" alt="">
     </div>
 
-    <div class="powered-by">
-      <a href="https://broadcast247.co.uk" target="_blank">Powered by Broadcast 24/7</a>
+    <div class="meta-wrap">
+      <div class="onair-label"><span>●</span> NOW PLAYING</div>
+
+      <div id="trackTitle" class="track-title">Loading…</div>
+
+      <button id="playButton" class="play-btn">PLAY</button>
+
+      <div class="volume-wrap">
+        <input id="volumeBar" class="volume-bar" type="range" min="0" max="100" value="100">
+      </div>
+
+      <div class="powered-by">
+        <a href="https://broadcast247.co.uk" target="_blank">Powered by Broadcast 24/7</a>
+      </div>
     </div>
+
   </div>
 
 </div>
@@ -197,9 +212,10 @@ const metaURL = params.get("meta");
 const licenseKey = params.get("license");
 const align = params.get("align") || "center";
 
-document.getElementById("playerArea").classList.add(`align-${align}`);
+/* UPDATED: Apply alignment to wrapper */
+document.getElementById("playerContainer").classList.add(`align-${align}`);
 
-// ✅ UPDATED LICENSE URL
+// UPDATED LICENSE URL
 const licenseURL = "https://raw.githubusercontent.com/broadcast24-7/broadcast24-7-premium-player/main/licenses.json";
 
 async function checkLicense() {
