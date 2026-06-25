@@ -26,7 +26,7 @@
       color: var(--text);
     }
 
-    /* FIXED ALIGNMENT SYSTEM */
+    /* ALIGNMENT SYSTEM */
     #playerContainer {
       width: 100%;
       display: flex;
@@ -51,7 +51,7 @@
       -webkit-backdrop-filter: blur(14px);
       border-radius: 14px;
 
-      /* FIXED WIDTH (350px) */
+      /* FIXED WIDTH */
       width: 350px;
       max-width: 350px;
 
@@ -96,17 +96,21 @@
 
     .onair-label span { color: #ff9c35; }
 
-    /* SCROLLING TITLE */
+    /* TITLE MASK (prevents overlap) */
+    .title-mask {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
     .track-title {
       font-size: 15px;
       font-weight: 700;
       line-height: 1.2;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
       color: var(--title-color);
-      display: block;
-      position: relative;
+      display: inline-block;
+      will-change: transform;
     }
 
     .track-title.scroll {
@@ -205,7 +209,10 @@
     <div class="meta-wrap">
       <div class="onair-label"><span>●</span> NOW PLAYING</div>
 
-      <div id="trackTitle" class="track-title">Loading…</div>
+      <!-- TITLE MASK WRAPPER -->
+      <div class="title-mask">
+        <div id="trackTitle" class="track-title">Loading…</div>
+      </div>
 
       <button id="playButton" class="play-btn">PLAY</button>
 
@@ -275,7 +282,7 @@ function initPlayer() {
   const titleEl = document.getElementById("trackTitle");
   const artworkEl = document.getElementById("artwork");
 
-  /* ✅ UPDATED FALLBACK IMAGE */
+  /* UPDATED FALLBACK IMAGE */
   const FALLBACK_ART = "https://i.ibb.co/q3d3vD4x/B247-PREMIUM-FALLBACK.png";
   artworkEl.src = FALLBACK_ART;
 
